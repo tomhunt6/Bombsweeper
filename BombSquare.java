@@ -11,5 +11,42 @@ public class BombSquare extends GameSquare
 
         this.board = board;
         this.hasBomb = ((int) (Math.random() * MINE_PROBABILITY)) == 0;
-    }    
+    }   
+
+    public void rightClicked()
+    {
+        this.setImage("images/flag.png");
+    } 
+
+    public void leftClicked()
+    {
+        if(hasBomb==true)
+        {
+            this.setImage("images/bomb.png");
+        }
+        else
+        {
+            System.out.println(this.returnNumBombsAround(this.getXLocation(), this.getYLocation()));
+        }
+    }
+
+    public int returnNumBombsAround(int x, int y)
+    {
+        int counter=0;
+
+        for(int i=-1;i<2;i++)
+        {
+            for(int j=-1; j<2;j++)
+            {
+                if(board.getSquareAt(x+i,y+j).hasBomb==true)
+                {
+                    counter++;
+                }
+            }
+        }
+
+        return counter;    
+    }
+
+
 }
