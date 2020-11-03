@@ -46,17 +46,6 @@
                 
             }
         }
-        
-        // if(counter<=0 || counter > 8)
-        // {
-        //     System.out.println("Error, surrounding bombs was counted as >0 or >8");
-        //     return 0;
-        // }
-        // else{
-        //     return counter;  
-        // }  
-
-        System.out.println(counter);
         return counter;
     }
 
