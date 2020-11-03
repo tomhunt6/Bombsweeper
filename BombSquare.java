@@ -1,4 +1,4 @@
-public class BombSquare extends GameSquare
+ public class BombSquare extends GameSquare
 {
     private GameBoard board;                            // Object reference to the GameBoard this square is part of.
     private boolean hasBomb;                            // True if this squre contains a bomb. False otherwise.
@@ -26,7 +26,7 @@ public class BombSquare extends GameSquare
         }
         else
         {
-            System.out.println(this.returnNumBombsAround(this.getXLocation(), this.getYLocation()));
+            this.setImage(this.returnImageString(this.returnNumBombsAround(this.getXLocation(), this.getYLocation())));
         }
     }
 
@@ -38,14 +38,33 @@ public class BombSquare extends GameSquare
         {
             for(int j=-1; j<2;j++)
             {
-                if(board.getSquareAt(x+i,y+j).hasBomb==true)
+                BombSquare gs = (BombSquare) board.getSquareAt(x+i, y+j);
+                if(gs.hasBomb==true)
                 {
                     counter++;
                 }
+                
             }
         }
+        
+        // if(counter<=0 || counter > 8)
+        // {
+        //     System.out.println("Error, surrounding bombs was counted as >0 or >8");
+        //     return 0;
+        // }
+        // else{
+        //     return counter;  
+        // }  
 
-        return counter;    
+        System.out.println(counter);
+        return counter;
+    }
+
+    public String returnImageString(int i)
+    {
+        String s = "images/.png";
+        s = s.substring(0, 7) + i + s.substring(7, s.length());
+        return s;
     }
 
 
