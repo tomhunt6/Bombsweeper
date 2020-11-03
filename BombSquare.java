@@ -38,15 +38,24 @@
         {
             for(int j=-1; j<2;j++)
             {
-                BombSquare gs = (BombSquare) board.getSquareAt(x+i, y+j);
-                if(gs.hasBomb==true)
+                BombSquare bs = (BombSquare) board.getSquareAt(x+i, y+j);
+                if(bs.hasBomb==true)
                 {
                     counter++;
                 }
                 
             }
         }
-        return counter;
+        
+        if(counter==0)
+        {
+            this.whiteSpace(x, y);
+            return counter;
+        }
+        else{
+            return counter;
+        }
+
     }
 
     public String returnImageString(int i)
@@ -54,6 +63,27 @@
         String s = "images/.png";
         s = s.substring(0, 7) + i + s.substring(7, s.length());
         return s;
+    }
+
+    public void whiteSpace(int x, int y)
+    {
+        if(this.returnNumBombsAround(x, y)==0)
+        {
+            for(int i=-1;i<2;i++)
+            {
+                for(int j=-1; j<2;j++)
+                {
+                    if(i==0||j==0)
+                    {
+                        BombSquare bs = (BombSquare) board.getSquareAt(x+i, y+j);
+                        if(bs.returnNumBombsAround(x+i, y+j)==0)
+                        {
+                            this.whiteSpace(x+i, y+j);
+                        }
+                    }                    
+                }
+            }
+        }
     }
 
 
