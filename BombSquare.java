@@ -1,9 +1,9 @@
- public class BombSquare extends GameSquare
+public class BombSquare extends GameSquare
 {
     private GameBoard board;                            // Object reference to the GameBoard this square is part of.
     private boolean hasBomb;                            // True if this squre contains a bomb. False otherwise.
 
-	public static final int MINE_PROBABILITY = 10;
+    public static final int MINE_PROBABILITY = 10;
 
 	public BombSquare(int x, int y, GameBoard board)
 	{
@@ -26,7 +26,15 @@
         }
         else
         {
-            this.setImage(this.returnImageString(this.returnNumBombsAround(this.getXLocation(), this.getYLocation())));
+            int a = this.returnNumBombsAround(this.getXLocation(), this.getYLocation());
+            if(a>0)
+            {
+                this.setImage(this.returnImageString(a));
+            }
+            if(a==0)
+            {
+                this.blankSpace(this.getXLocation(), this.getYLocation());
+            }
         }
     }
 
@@ -38,12 +46,11 @@
         {
             for(int j=-1; j<2;j++)
             {
-                BombSquare gs = (BombSquare) board.getSquareAt(x+i, y+j);
-                if(gs.hasBomb==true)
+                BombSquare bs = (BombSquare) board.getSquareAt(x+i, y+j);
+                if(bs.hasBomb==true)
                 {
                     counter++;
                 }
-                
             }
         }
         return counter;
@@ -56,5 +63,43 @@
         return s;
     }
 
+    public void blankSpace(int x, int y)
+    {
+        for(int i=-1; i<2; i++)
+        {
+            for(int j=-1; j<2; j++)
+            {
+                if(i!=0 || j!=0)
+                {
+                    if(x+i>=0 && x+i<30 && y+j>=0 && y+j<30)
+                    {
+                        BombSquare bs = (BombSquare) board.getSquareAt(x+i, y+j);
+                        if(bs.returnNumBombsAround(x+i, y+j)==0)
+                        {
+                            this.revealBlankSpace(x+i, y+i);
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+    public void revealBlankSpace(int x, int y)
+    {
+        for(int i=-1; i<2; i++)
+        {
+            for(int j=-1; j<2; j++)
+            {
+                if(x+i>=0 && x+i<30 && y+j>=0 && y+j<30)
+                {
+                    BombSquare bs = (BombSquare) board.getSquareAt(x+i, y+j);
+                    int numBombs = this.returnNumBombsAround(x+i, y+j);
+                    bs.setImage(this.returnImageString(numBombs));
+                }
+
+            }
+        }
+    }
 
 }
